@@ -7,7 +7,7 @@ const { urlencoded } = require("body-parser");
 const app = express();
 
 // setup server port
-const port = 4000;
+const port = process.env.PORT || 4000
 
 // parse requests of content-type - applicaton/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
@@ -15,13 +15,18 @@ app.use(bodyParser.urlencoded({extended: true}));
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 
-// congiguring database 
+// configuring database 
 const dbConfig = require("./config/config.js");
 const mongoose = require("mongoose");
 
+// configuring swagger
+const swaggerUi = require("swagger-ui-express"),
+swaggerDocument = require("./swagger.json");
+
 // connecting to the database
 mongoose.connect(dbConfig.url, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 }).then(() => {
     console.log("Successfully connected to the database");
 }).catch( err => {
@@ -39,6 +44,9 @@ app.get("/", (req, res) => {
 const EmployeeRoutes = require('./routes/Employee.js');
 // using as middleware
 app.use('/api', EmployeeRoutes);
+
+// using swaggerDocument
+app.use('/employee', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // listen for requests
 app.listen(port, () => {

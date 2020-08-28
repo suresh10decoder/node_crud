@@ -1,0 +1,183 @@
+{
+    "swagger": "2.0",
+    "info":{
+        "version": "1.0.0",
+        "title": "Employee CRUD",
+        "description": "Employee CRUD Application API"
+    },
+    "host": "localhost:4000",
+    "basePath": "/",
+    "tags": [
+    {
+    "name": "Employees",
+    "description": "API for Employee in the system"
+    }
+    ],
+    "schemes": [
+    "http"
+    ],
+    "consumes": [
+    "application/json"
+    ],
+    "produces": [
+    "application/json"
+    ],
+    "paths":{
+        "/api/employee":{
+            "get":{
+                "tags":["Employees"],
+                "summary":"Get all Employee in system",
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema": {
+                            "$ref":"#/definitions/Employees"
+                        }
+                    }
+                }
+            },
+            "post":{
+                "tags":["Employees"],
+                "summary":"Create new Employee in system",
+                "parameters":[
+                    {
+                        "name":"Employee",
+                        "in":"body",
+                        "description":"Employee that we want to create",
+                        "schema":{
+                            "$ref":"#/definitions/postEmployee"
+                        }
+                    }
+                ],
+                "produces":["application/json"],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema": {
+                            "$ref":"#/definitions/Employee"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/employee/{id}":{
+            "parameters":[
+                {
+                    "name":"id",
+                    "in":"path", 
+                    "required":true,
+                    "description":"Id of employee that we want to find",
+                    "type":"string"
+                }
+            ],
+            "get":{
+                "summary":"Get Employee with given ID",
+                "tags":["Employees"],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema": {
+                            "$ref":"#/definitions/Employee"
+                        }
+                    }
+                }
+
+            },
+            "delete":{
+                "summary":"Delete Employee with given ID",
+                "tags":["Employees"],
+                "responses":{
+                    "200":{
+                        "description":"Employee is deleted",
+                        "schema": {
+                            "$ref":"#/definitions/Employee"
+                        }
+                    }
+                }
+
+            },
+            "put":{
+                "summary":"Update employee with given ID",
+                "tags":["Employees"],
+                "parameters":[{
+                    "name":"Employee",
+                    "in":"body",
+                    "description":"Employee with new values of properties",
+                    "schema":{
+                        "$ref":"#/definitions/postEmployee"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"Employee is updated",
+                        "schema": {
+                            "$ref":"#/definitions/Employee"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions":{
+        "Employee":{
+            "required":[
+                "first_name",
+                "last_name",
+                "email",
+                "phone_number",
+                "is_active"
+            ],
+            "properties":{
+                "_id":{
+                    "type":"integer",
+                    "uniqueItems": true
+                },
+                "is_active":{
+                    "type":"boolean"
+                },
+                "first_name":{
+                    "type":"string"
+                },
+                "last_name":{
+                    "type":"string"
+                },
+                "email":{
+                    "type":"string"
+                },
+                "phone_number":{
+                    "type":"number"
+                }
+            }
+        },
+        "postEmployee":{
+            "required":[
+                "first_name",
+                "last_name",
+                "email",
+                "phone_number",
+                "is_active"
+            ],
+            "properties":{
+                "is_active":{
+                    "type":"boolean"
+                },
+                "first_name":{
+                    "type":"string"
+                },
+                "last_name":{
+                    "type":"string"
+                },
+                "email":{
+                    "type":"string"
+                },
+                "phone_number":{
+                    "type":"number"
+                }
+            }
+        },
+        "Employees":{
+            "type":"array",
+            "$ref":"#definitions/Employee"
+        }
+    }
+}
