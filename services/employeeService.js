@@ -1,31 +1,32 @@
-const employeeDao = require('../dao/employeeDao');
+const Base = require('../dao/BaseDao');
+let Employee = require('../models/Employee');
 
 module.exports.getEmployee = function(callback){
-    employeeDao.getEmployee(function(response){
+    Base.getAll(Employee, function(response){
         callback(response);
     })
 }
 
 module.exports.postEmployee = function(req, callback){
-    employeeDao.postEmployee(req, function(response){
+    Base.post(Employee, req, function(response){
         callback(response);
     })
 }
 
 module.exports.deleteEmployeeById = function(req, callback){
-    employeeDao.deleteEmployeeById(req, function(response){
+    Base.deleteById(Employee, req, function(response){
         callback(response);
     })
 }
 
 module.exports.getEmployeeById = function(req, callback){
-    employeeDao.getEmployeeById(req, function(response){
+    Base.getById(Employee, req, function(response){
         callback(response);
     })
 }
 
 module.exports.updateEmployeeById = function(req, callback){
-    employeeDao.updateEmployeeById(req, function(response){
+    Base.updateById(Employee, req, function(response){
         callback(response);
     })
 }
